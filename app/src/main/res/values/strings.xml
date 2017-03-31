@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Warehouse Inventory</string>
+    <string name="startSession">Start a new session</string>
+    <string name="firstCount">1st</string>
+    <string name="secondCount">2nd</string>
+    <string name="thirdCount">3rd</string>
+    <string name="inventoryCounts">Inventory Counts</string>
+    <string name="enter_employee_number">Enter your Employee Number</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+</resources>
