@@ -23,7 +23,7 @@ public final class API {
     private static final String API_KEY = BuildConfig.API_KEY;
     private static final String API_GET_ITEMS = API_HOST + "/script/api_get_items/items.json?RFMkey=" + API_KEY;
     private static final String API_GET_EMPLOYEES = API_HOST + "/layout/employees.json?RFMkey=" + API_KEY;
-    private static final String API_VALIDATE_KEY = API_HOST + "/script/api_validate_key/api_keys.json?RFMkey=" + API_KEY;
+    private static final String API_FIND_EMPLOYEE = API_HOST + "/layout/employees.json?RFMKey=" + API_KEY;
 
     private API() {
         throw new AssertionError("No API instances for you!");
@@ -45,11 +45,11 @@ public final class API {
 
     /**
      * validaKey
-     * @param key the api key
+     * @param employeeNumber the employee's number
      * @return an APIResponse object with the results
      */
-    public static APIResponse validateKey(int key) {
-        return httpConnect("GET", API_VALIDATE_KEY + "&RFMscriptParam=" + key, null);
+    public static APIResponse findEmployee(String employeeNumber) {
+        return httpConnect("GET", API_FIND_EMPLOYEE + "&RFMsF1=employee_number&RFMsV1=" + employeeNumber, null);
     }
 
     /**

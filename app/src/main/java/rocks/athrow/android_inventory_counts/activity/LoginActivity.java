@@ -2,14 +2,18 @@ package rocks.athrow.android_inventory_counts.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import rocks.athrow.android_inventory_counts.R;
+import rocks.athrow.android_inventory_counts.api.API;
+import rocks.athrow.android_inventory_counts.api.APIResponse;
 
 /**
  * LoginActivity
@@ -55,16 +59,32 @@ public class LoginActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitLogin();
+                EditText inputNumber = (EditText) findViewById(R.id.input_employee_number);
+                String employeeNumber = inputNumber.getText().toString();
+                submitLogin(employeeNumber);
             }
         });
     }
 
-    private void submitLogin(){
-        Context context = getApplicationContext();
-        CharSequence text = "Login!";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+    private void submitLogin(String employeeNumber){
+        ServerLogin serverLogin = new ServerLogin();
+        serverLogin.execute(employeeNumber);
+    }
+
+    private class ServerLogin extends AsyncTask<String, Void, APIResponse>{
+        @Override
+        protected APIResponse doInBackground(String... params) {
+            return API.findEmployee(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(APIResponse apiResponse) {
+            super.onPostExecute(apiResponse);
+            Context context = getApplicationContext();
+            CharSequence text = "Login!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 }

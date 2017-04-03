@@ -12,9 +12,11 @@
     tools:context="rocks.athrow.android_inventory_counts.activity.MainActivity">
 
     <TextView
+        android:textColor="#212121"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/startSession"
         android:textSize="22sp" />
 
@@ -60,6 +62,7 @@
         android:background="#616161" />
 
     <TextView
+        android:textColor="#212121"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16sp"
