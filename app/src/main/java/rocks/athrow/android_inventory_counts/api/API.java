@@ -23,7 +23,7 @@ public final class API {
     private static final String API_KEY = BuildConfig.API_KEY;
     private static final String API_GET_ITEMS = API_HOST + "/script/api_get_items/items.json?RFMkey=" + API_KEY;
     private static final String API_GET_EMPLOYEES = API_HOST + "/layout/employees.json?RFMkey=" + API_KEY;
-    private static final String API_FIND_EMPLOYEE = API_HOST + "/layout/employees.json?RFMKey=" + API_KEY;
+    private static final String API_GET_LOCATIONS = API_HOST + "/script/api_get_locations/locations.json?RFMkey=" + API_KEY;
 
     private API() {
         throw new AssertionError("No API instances for you!");
@@ -31,6 +31,7 @@ public final class API {
 
     /**
      * getItems
+     *
      * @param lastSerialNumber the last serial number in the database. Used so the query only
      *                         returns new items.
      * @return an APIResponse object with the results
@@ -39,17 +40,35 @@ public final class API {
         return httpConnect("GET", API_GET_ITEMS + "&RFMscriptParam=" + lastSerialNumber, null);
     }
 
-    public static APIResponse getEmployees(){
+    /**
+     * getEmployees
+     * Get all the employees
+     *
+     * @return an APIResponse object with the results
+     */
+    public static APIResponse getEmployees() {
         return httpConnect("GET", API_GET_EMPLOYEES, null);
     }
 
     /**
-     * validaKey
+     * findEmployee
+     *
      * @param employeeNumber the employee's number
      * @return an APIResponse object with the results
      */
     public static APIResponse findEmployee(String employeeNumber) {
-        return httpConnect("GET", API_FIND_EMPLOYEE + "&RFMsF1=employee_number&RFMsV1=" + employeeNumber, null);
+        return httpConnect("GET", API_GET_EMPLOYEES + "&RFMsF1=employee_number&RFMsV1=" + employeeNumber, null);
+    }
+
+    /**
+     * getLocations
+     *
+     * @param lastSerialNumber the last serial number in the database. Used so the query only
+     *                         returns new items.
+     * @return an APIResponse object with the results
+     */
+    public static APIResponse getLocations(int lastSerialNumber) {
+        return httpConnect("GET", API_GET_LOCATIONS + "&RFMscriptParam=" + lastSerialNumber, null);
     }
 
     /**
@@ -66,7 +85,7 @@ public final class API {
             Uri builtUri = Uri.parse(queryURL).buildUpon().build();
             URL url = new URL(builtUri.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
-            switch (requestMethod){
+            switch (requestMethod) {
                 case "GET":
                     urlConnection.setRequestMethod("GET");
                     urlConnection.connect();
@@ -74,13 +93,13 @@ public final class API {
                     break;
                 case "POST":
                     urlConnection.setRequestMethod("POST");
-                    urlConnection.setRequestProperty( "charset", "utf-8");
-                    urlConnection.setRequestProperty( "Content-Type", "application/json");
-                    urlConnection.setRequestProperty( "Content-Length", Integer.toString(postData.length()) );
+                    urlConnection.setRequestProperty("charset", "utf-8");
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+                    urlConnection.setRequestProperty("Content-Length", Integer.toString(postData.length()));
                     urlConnection.setDoOutput(true);
                     byte[] data = postData.getBytes(StandardCharsets.UTF_8);
-                    try( DataOutputStream wr = new DataOutputStream( urlConnection.getOutputStream())) {
-                        wr.write( data );
+                    try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
+                        wr.write(data);
                     }
                     apiResponse.setResponseCode(urlConnection.getResponseCode());
                     break;

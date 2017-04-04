@@ -16,7 +16,7 @@ public final class RealmQueries {
         throw new AssertionError("No Utilities instances for you!");
     }
 
-    public static RealmResults<Employee> getEmployee(Context context, int employeeNumber) {
+    public static Employee getEmployee(Context context, int employeeNumber) {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(context).build();
         Realm.setDefaultConfiguration(realmConfig);
         Realm realm = Realm.getDefaultInstance();
@@ -24,7 +24,10 @@ public final class RealmQueries {
         RealmResults<Employee> realmResults =
                 realm.where(Employee.class).equalTo(Employee.FIELD_EMPLOYEE_NUMBER, employeeNumber).findAll();
         realm.commitTransaction();
-        return realmResults;
+        if (realmResults.size() == 0) {
+            return null;
+        } else {
+            return realmResults.get(0);
+        }
     }
-
 }

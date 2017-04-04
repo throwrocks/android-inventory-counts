@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -50,11 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 startLoginActivity(3);
             }
         });
+        scheduleSyncDB();
     }
 
     @Override
     protected void onResume() {
-        scheduleSyncDB();
+
         /*if (isRegistered()) {
             scheduleSyncDB();
         } else {
@@ -64,17 +66,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scheduleSyncDB() {
-        ComponentName serviceName = new ComponentName(this, SyncDBJobService.class);
+        ComponentName serviceName = new ComponentName(getPackageName(), SyncDBJobService.class.getName());
         JobInfo.Builder jobInfo = new JobInfo.Builder(1, serviceName);
         jobInfo.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         jobInfo.setPeriodic(10000);
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.schedule(jobInfo.build());
+        JobScheduler scheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancelAll();
+        int result = scheduler.schedule(jobInfo.build());
+        if (result == JobScheduler.RESULT_SUCCESS) Log.e("MainActivity", "Job scheduled successfully!");
     }
 
     private void startLoginActivity(int countType){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.putExtra("countType", countType);
+        intent.putExtra("count_type", countType);
         startActivity(intent);
     }
 

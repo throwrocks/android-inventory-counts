@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/startSession"
+        android:text="@string/start_session"
         android:textSize="22sp" />
 
     <android.support.v7.widget.ButtonBarLayout
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:paddingBottom="@dimen/mainButtonPadding"
             android:paddingTop="@dimen/mainButtonPadding"
-            android:text="@string/firstCount"
+            android:text="@string/first_count"
             android:textSize="14sp" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:paddingBottom="@dimen/mainButtonPadding"
             android:paddingTop="@dimen/mainButtonPadding"
-            android:text="@string/secondCount"
+            android:text="@string/second_count"
             android:textSize="14sp" />
 
         <Button
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:paddingBottom="@dimen/mainButtonPadding"
             android:paddingTop="@dimen/mainButtonPadding"
-            android:text="@string/thirdCount"
+            android:text="@string/third_count"
             android:textSize="14sp" />
     </android.support.v7.widget.ButtonBarLayout>
 
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16sp"
-        android:text="@string/inventoryCounts"
+        android:text="@string/inventory_counts"
         android:textSize="22sp" />
 
 </LinearLayout>

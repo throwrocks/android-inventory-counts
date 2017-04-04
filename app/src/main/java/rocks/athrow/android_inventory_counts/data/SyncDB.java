@@ -15,6 +15,8 @@ import rocks.athrow.android_inventory_counts.api.API;
 import rocks.athrow.android_inventory_counts.api.APIResponse;
 import rocks.athrow.android_inventory_counts.util.PreferencesHelper;
 
+import static android.R.attr.name;
+
 /**
  * SyncDB
  * Created by joselopez1 on 3/29/2017.
@@ -34,15 +36,26 @@ public final class SyncDB {
         if (itemLastSerialNumber != null) {
             itemSerialNumber = itemLastSerialNumber.intValue();
         }
+        Number locationLastSerialNumber = realm.where(Location.class).findAll().max(Location.FIELD_SERIAL_NUMBER);
+        Log.e(LOG_TAG, "Last location id: " + locationLastSerialNumber);
+        int locationSerialNumber = 0;
+        if (locationLastSerialNumber != null) {
+            locationSerialNumber = locationLastSerialNumber.intValue();
+        }
         realm.commitTransaction();
         realm.close();
         APIResponse itemsResponse = API.getItems(itemSerialNumber);
+        APIResponse employeesResponse = API.getEmployees();
+        APIResponse locationsResponse = API.getLocations(locationSerialNumber);
         if (itemsResponse.getResponseCode() == 200) {
             updateDB(context, "items", itemsResponse.getResponseText());
         }
-        APIResponse employeesResponse = API.getEmployees();
+
         if ( employeesResponse.getResponseCode() == 200 ){
             updateDB(context, "employees", employeesResponse.getResponseText());
+        }
+        if (locationsResponse.getResponseCode() == 200) {
+            updateDB(context, "locations", locationsResponse.getResponseText());
         }
         PreferencesHelper preferencesHelper = new PreferencesHelper(context);
         preferencesHelper.save("last_sync", new Date().toString());
@@ -111,7 +124,37 @@ public final class SyncDB {
                 realm.close();
                 Realm.compactRealm(realmConfig);
                 break;
+            case "locations":
+                JSONArray locationsArray = ParseJSON.getJSONArray(responseText);
+                if (locationsArray == null) {
+                    return;
+                }
+                int countLocations = locationsArray.length();
+                Log.e(LOG_TAG, "Locations: " + countLocations);
+                realm.beginTransaction();
+                for (int i = 0; i < countLocations; i++) {
+                    try {
+                        Location location = new Location();
+                        JSONObject record = locationsArray.getJSONObject(i);
+                        String locationName = record.getString(Location.FIELD_LOCATION);
+                        location.setSerialNumber(record.getInt(Location.FIELD_SERIAL_NUMBER));
+                        location.setBarcode(record.getString(Location.FIELD_BARCODE));
+                        location.setLocation(locationName);
+                        location.setType(record.getString(Location.FIELD_TYPE));
+                        location.setPrimary(record.getBoolean(Location.FIELD_IS_PRIMARY));
+                        location.setRow(record.getString(Location.FIELD_ROW));
+                        realm.copyToRealmOrUpdate(location);
+                        Log.d(LOG_TAG, "Save Location " + i + ": " + name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                realm.commitTransaction();
+                realm.close();
+                Realm.compactRealm(realmConfig);
+                break;
         }
+
         realm.close();
     }
 
