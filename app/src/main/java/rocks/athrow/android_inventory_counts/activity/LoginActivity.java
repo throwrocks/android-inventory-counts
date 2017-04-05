@@ -43,7 +43,11 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 EditText inputNumber = (EditText) findViewById(R.id.input_employee_number);
                 String employeeNumber = inputNumber.getText().toString();
-                submitLogin(employeeNumber);
+                if (!employeeNumber.isEmpty()){
+                    submitLogin(employeeNumber);
+                }else{
+                    showToast("Please enter an employee number.", Toast.LENGTH_SHORT);
+                }
             }
         });
     }
