@@ -5,6 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,8 @@ import rocks.athrow.android_inventory_counts.R;
 import rocks.athrow.android_inventory_counts.service.SyncDBJobService;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int JOB_ID = 1001;
+    private static final long REFRESH_INTERVAL  = 5 * 1000; // 5 seconds
     Button count1Button;
     Button count2Button;
     Button count3Button;
@@ -56,23 +59,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
-        /*if (isRegistered()) {
-            scheduleSyncDB();
-        } else {
-            openRegistration();
-        }*/
         super.onResume();
     }
 
     private void scheduleSyncDB() {
         ComponentName serviceName = new ComponentName(getPackageName(), SyncDBJobService.class.getName());
-        JobInfo.Builder jobInfo = new JobInfo.Builder(1, serviceName);
-        jobInfo.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-        jobInfo.setPeriodic(10000);
+        // http://stackoverflow.com/questions/38344220/job-scheduler-not-running-on-android-n
+        JobInfo jobInfo;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            jobInfo = new JobInfo.Builder(JOB_ID, serviceName)
+                    .setMinimumLatency(REFRESH_INTERVAL).build();
+        } else {
+            jobInfo = new JobInfo.Builder(JOB_ID, serviceName)
+                    .setPeriodic(REFRESH_INTERVAL).build();
+        }
         JobScheduler scheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancelAll();
-        int result = scheduler.schedule(jobInfo.build());
+        int result = scheduler.schedule(jobInfo);
         if (result == JobScheduler.RESULT_SUCCESS) Log.e("MainActivity", "Job scheduled successfully!");
     }
 
@@ -81,12 +83,5 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("count_type", countType);
         startActivity(intent);
     }
-
-    /*private boolean isRegistered() {
-        PreferencesHelper prefs = new PreferencesHelper(getApplicationContext());
-        String employeeNumber = prefs.loadString(SETTINGS_EMPLOYEE_NUMBER, EMPTY);
-        String employeeName = prefs.loadString(SETTINGS_EMPLOYEE_NAME, EMPTY);
-        return !employeeNumber.isEmpty() && !employeeName.isEmpty();
-    }*/
 
 }
