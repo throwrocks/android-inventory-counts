@@ -18,6 +18,9 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import rocks.athrow.android_inventory_counts.R;
 import rocks.athrow.android_inventory_counts.service.SyncDBJobService;
 
+import static rocks.athrow.android_inventory_counts.data.Constants.COUNT_TYPE;
+import static rocks.athrow.android_inventory_counts.data.Constants.JOB_SUCCESS;
+
 public class MainActivity extends AppCompatActivity {
     private static final int JOB_ID = 1001;
     private static final long REFRESH_INTERVAL  = 5 * 1000;
@@ -75,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         }
         JobScheduler scheduler = (JobScheduler) getApplicationContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
         int result = scheduler.schedule(jobInfo);
-        if (result == JobScheduler.RESULT_SUCCESS) Log.e("MainActivity", "Job scheduled successfully!");
+        if (result == JobScheduler.RESULT_SUCCESS) Log.e(MainActivity.class.getName(), JOB_SUCCESS);
     }
 
     private void startLoginActivity(int countType){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.putExtra("count_type", countType);
+        intent.putExtra(COUNT_TYPE, countType);
         startActivity(intent);
     }
 

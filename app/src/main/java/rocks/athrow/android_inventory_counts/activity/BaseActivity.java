@@ -1,13 +1,14 @@
 package rocks.athrow.android_inventory_counts.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import rocks.athrow.android_inventory_counts.R;
+import rocks.athrow.android_inventory_counts.zxing.IntentIntegrator;
+import rocks.athrow.android_inventory_counts.zxing.IntentResult;
+
+import static rocks.athrow.android_inventory_counts.data.Constants.ITEM;
+import static rocks.athrow.android_inventory_counts.data.Constants.LOCATION;
+
 
 /**
  * BaseActivity
@@ -15,33 +16,9 @@ import rocks.athrow.android_inventory_counts.R;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-    TextView countTypeView;
-    boolean isScanning;
-    void setCountTypeView(int countType){
-        if ( countType == 0 ){
-            finish();
-        }
-        String countTypeDisplay = null;
-        switch (countType){
-            case 1:
-                countTypeDisplay = "1st";
-                break;
-            case 2:
-                countTypeDisplay = "2nd";
-                break;
-            case 3:
-                countTypeDisplay = "3rd";
-                break;
-        }
-        countTypeDisplay = countTypeDisplay + " Count";
-        countTypeView = (TextView) findViewById(R.id.count_type);
-        countTypeView.setText(countTypeDisplay);
-    }
-
-    void showToast(String message, int duration) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, duration);
-        toast.show();
-    }
+    String mScanType;
+    String mBarcodeContents;
+    boolean mIsScanning;
 
     /**
      * initiateScan
@@ -49,9 +26,49 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     void initiateScan(String scanType) {
         if (scanType != null) {
-            isScanning = true;
+            mScanType = scanType;
+            mIsScanning = true;
             rocks.athrow.android_inventory_counts.zxing.IntentIntegrator integrator = new rocks.athrow.android_inventory_counts.zxing.IntentIntegrator(this);
             integrator.initiateScan();
+        }
+    }
+
+    /**
+     * onActivityResult
+     * Called after scanning a barcode
+     * Handles scanning an item or a location (current location or new location)
+     *
+     * @param requestCode the request code
+     * @param resultCode  the result code
+     * @param intent      the intent from the barcode initiateScan
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        mIsScanning = false;
+        if (mScanType == null) {
+            return;
+        }
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult == null) {
+            return;
+        }
+        String contents = scanResult.getContents();
+        if (contents == null) {
+            return;
+        }
+        mBarcodeContents = contents;
+        switch (mScanType) {
+            case ITEM:
+                ScanItemActivity scanItemActivity = ScanItemActivity.getInstance();
+                if (scanItemActivity != null) {
+                    scanItemActivity.processItem(contents);
+                }
+                break;
+            case LOCATION:
+                ScanLocationActivity scanLocationActivity = ScanLocationActivity.getInstance();
+                if (scanLocationActivity != null) {
+                    scanLocationActivity.processLocation(contents);
+                }
+                break;
         }
     }
 }
