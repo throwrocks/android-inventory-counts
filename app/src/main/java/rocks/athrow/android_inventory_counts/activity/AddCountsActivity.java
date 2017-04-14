@@ -16,6 +16,7 @@ import rocks.athrow.android_inventory_counts.R;
 import rocks.athrow.android_inventory_counts.data.RealmQueries;
 import rocks.athrow.android_inventory_counts.util.Utilities;
 
+import static rocks.athrow.android_inventory_counts.data.Constants.COUNT_TYPE;
 import static rocks.athrow.android_inventory_counts.data.Constants.COUNT_TYPE_DISPLAY;
 import static rocks.athrow.android_inventory_counts.data.Constants.DESCRIPTION;
 import static rocks.athrow.android_inventory_counts.data.Constants.EMPLOYEE_NAME;
@@ -33,17 +34,17 @@ import static rocks.athrow.android_inventory_counts.data.Constants.TAG_NUMBER;
  */
 
 public class AddCountsActivity extends AppCompatActivity {
-    int employeeNumber;
-    String employeeName;
-    String location;
-    int countType;
-    String countTypeDisplay;
-    String tagNumber;
-    int sku;
-    String description;
-    String packSize;
-    String receivedDate;
-    String expirationDate;
+    private int employeeNumber;
+    private String employeeName;
+    private String location;
+    private int countType;
+    private String countTypeDisplay;
+    private String tagNumber;
+    private int sku;
+    private String description;
+    private String packSize;
+    private String receivedDate;
+    private String expirationDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class AddCountsActivity extends AppCompatActivity {
         employeeNumber = Integer.parseInt(intent.getStringExtra(EMPLOYEE_NUMBER));
         employeeName = intent.getStringExtra(EMPLOYEE_NAME);
         location = intent.getStringExtra(LOCATION);
+        countType = Integer.parseInt(intent.getStringExtra(COUNT_TYPE));
         countTypeDisplay = intent.getStringExtra(COUNT_TYPE_DISPLAY);
         tagNumber = intent.getStringExtra(TAG_NUMBER);
         sku = Integer.parseInt(intent.getStringExtra(SKU));

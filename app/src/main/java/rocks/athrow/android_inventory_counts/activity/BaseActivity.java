@@ -16,9 +16,9 @@ import static rocks.athrow.android_inventory_counts.data.Constants.LOCATION;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-    String mScanType;
-    String mBarcodeContents;
-    boolean mIsScanning;
+    private String mScanType;
+    private String mBarcodeContents;
+    private boolean mIsScanning;
 
     /**
      * initiateScan

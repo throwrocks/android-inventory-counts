@@ -24,9 +24,9 @@ import static rocks.athrow.android_inventory_counts.data.Constants.JOB_SUCCESS;
 public class MainActivity extends AppCompatActivity {
     private static final int JOB_ID = 1001;
     private static final long REFRESH_INTERVAL  = 5 * 1000;
-    Button count1Button;
-    Button count2Button;
-    Button count3Button;
+    private Button count1Button;
+    private Button count2Button;
+    private Button count3Button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

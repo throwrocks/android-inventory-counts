@@ -26,8 +26,8 @@ import static rocks.athrow.android_inventory_counts.data.Constants.TAG_NUMBER;
 
 public class ScanItemActivity extends BaseActivity {
     private static ScanItemActivity instance;
-    String location;
-    String countTypeDisplay;
+    private String location;
+    private String countTypeDisplay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

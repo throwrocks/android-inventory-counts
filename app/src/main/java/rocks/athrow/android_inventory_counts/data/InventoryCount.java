@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by joselopez1 on 3/27/2017.
  */
 
-public class InventoryCount extends RealmObject {
+class InventoryCount extends RealmObject {
     public static final String FIELD_ID = "id";
     public static final String FIELD_LOCATION = "location";
     public static final String FIELD_TAG_NUMBER = "tagNumber";

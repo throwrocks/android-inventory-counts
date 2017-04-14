@@ -25,10 +25,10 @@ import static rocks.athrow.android_inventory_counts.data.Constants.EMPLOYEE_NUMB
  */
 
 public class LoginActivity extends BaseActivity {
-    Button cancelButton;
-    Button submitButton;
-    int countType;
-    String countTypeDisplay;
+    private Button cancelButton;
+    private Button submitButton;
+    private int countType;
+    private String countTypeDisplay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

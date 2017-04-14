@@ -9,10 +9,10 @@ import org.json.JSONObject;
  */
 
 
-public class ParseJSON {
+class ParseJSON {
     private static final String DATA = "data";
 
-    public static JSONArray getJSONArray(String JSON) {
+    static JSONArray getJSONArray(String JSON) {
         JSONArray jsonArray = null;
         try {
             JSONObject jsonObject = new JSONObject(JSON);

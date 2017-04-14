@@ -22,10 +22,10 @@ import static rocks.athrow.android_inventory_counts.data.Constants.LOCATION;
 
 public class ScanLocationActivity extends BaseActivity {
     private static ScanLocationActivity instance;
-    int countType;
-    String countTypeDisplay;
-    int employeeNumber;
-    String employeeName;
+    private int countType;
+    private String countTypeDisplay;
+    private int employeeNumber;
+    private String employeeName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

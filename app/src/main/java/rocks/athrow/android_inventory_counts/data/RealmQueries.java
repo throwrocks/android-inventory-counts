@@ -7,9 +7,9 @@ import java.util.UUID;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
+ * RealmQueries
  * Created by joselopez1 on 3/31/2017.
  */
 

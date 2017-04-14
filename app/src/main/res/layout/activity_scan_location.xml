@@ -23,7 +23,7 @@
             android:drawableStart="@drawable/barcode_scanner"
             android:gravity="center"
             android:padding="32dp"
-            android:text="Scan Location"
+            android:text="@string/scan_location"
             android:textColor="#212121" />
     </LinearLayout>
 
