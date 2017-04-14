@@ -109,45 +109,51 @@
     <include layout="@layout/divider" />
 
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
-            android:layout_weight="1"
             android:id="@+id/input_layout_pallets"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <EditText
-            android:hint="Pallets"
-            android:id="@+id/input_pallets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_weight="1"
-            android:id="@+id/input_layout_case_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <EditText
-            android:hint="Case Qty"
-            android:id="@+id/input_case_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_weight="1"
-            android:id="@+id/input_layout_loose_qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <EditText
-                android:hint="Loose Qty"
+                android:inputType="number"
+                android:id="@+id/input_pallets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pallets" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_case_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:inputType="number"
+                android:id="@+id/input_case_qty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/case_qty" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_loose_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:inputType="number"
                 android:id="@+id/input_loose_qty"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="@string/loose_qty" />
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

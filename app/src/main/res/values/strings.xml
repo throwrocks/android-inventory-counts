@@ -20,6 +20,10 @@
     <string name="scan_location">Scan Location</string>
     <string name="empty">Empty</string>
     <string name="scan_item">Scan Item</string>
+    <string name="pallets">Pallets</string>
+    <string name="case_qty">Case Qty</string>
+    <string name="loose_qty">Loose Qty</string>
+    <string name="done">Done</string>
     <!-- Scan Activity error messages -->
     <string name="error_location_not_found">Location not found.</string>
     <string name="error_item_not_found">Item not found.</string>
